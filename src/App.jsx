@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 
@@ -6,22 +6,41 @@ import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 
 import './common.scss';
 
-class App extends Component {
-  state = {
-    weekStartDate: new Date(),
+const App = () => {
+  const [weekStartDate, setWeekStartDate] = useState(getWeekStartDate(new Date()));
+  const [isShownModal, setShownModal] = useState(false);
+  const weekDates = generateWeekRange(weekStartDate);
+
+  const switchWeekUp = () => {
+    setWeekStartDate(new Date(weekStartDate.setTime(weekStartDate.getTime() + 604800000)));
   };
 
-  render() {
-    const { weekStartDate } = this.state;
-    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+  const switchWeekDown = () => {
+    setWeekStartDate(new Date(weekStartDate.setTime(weekStartDate.getTime() - 604800000)));
+  };
 
-    return (
-      <>
-        <Header />
-        <Calendar weekDates={weekDates} />
-      </>
-    );
-  }
-}
+  const switcToToday = () => setWeekStartDate(getWeekStartDate(new Date()));
+
+  const handleChangeShowModal = () => {
+    setShownModal(!isShownModal);
+  };
+
+  return (
+    <>
+      <Header
+        nextWeek={switchWeekUp}
+        prevWeek={switchWeekDown}
+        onToday={switcToToday}
+        weekStartDate={weekStartDate}
+        onCreateButton={handleChangeShowModal}
+      />
+      <Calendar
+        weekDates={weekDates}
+        handleChangeShowModal={handleChangeShowModal}
+        isShownModal={isShownModal}
+      />
+    </>
+  );
+};
 
 export default App;

@@ -1,11 +1,11 @@
 export const getWeekStartDate = date => {
   const dateCopy = new Date(date);
   const dayOfWeek = dateCopy.getDay();
+
   const difference =
     dayOfWeek === 0
       ? -6 // for Sunday
       : 1 - dayOfWeek;
-
   const monday = new Date(dateCopy.setDate(date.getDate() + difference));
   return new Date(monday.getFullYear(), monday.getMonth(), monday.getDate());
 };
@@ -45,3 +45,23 @@ export const months = [
   'November',
   'December',
 ];
+
+export const visibleMonth = (weekStartDate, months) => {
+  const dateCopy = new Date(weekStartDate);
+  const dateYearStart = weekStartDate.getFullYear();
+  const weekEndDate = new Date(dateCopy.setDate(dateCopy.getDate() + 6));
+  const dateYearEnd = weekEndDate.getFullYear();
+
+  if (weekStartDate.getMonth() === weekEndDate.getMonth()) {
+    return `${months[weekStartDate.getMonth()]}  ${dateYearStart}`;
+  } else if (
+    weekStartDate.getMonth() !== weekEndDate.getMonth() &&
+    weekStartDate.getMonth() === 11
+  ) {
+    return `${months[weekStartDate.getMonth()]} ${dateYearStart} - ${months[0]} ${dateYearEnd}`;
+  } else {
+    return `${months[weekStartDate.getMonth()]} - ${
+      months[weekStartDate.getMonth() + 1]
+    } ${dateYearStart}`;
+  }
+};

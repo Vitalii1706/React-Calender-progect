@@ -1,9 +1,14 @@
 import React from 'react';
 import Day from '../day/Day';
-
+import events from '../../gateway/events';
 import './week.scss';
 
-const Week = ({ weekDates, events }) => {
+const Week = ({ weekDates, onDeleteEvent, handleChangeShowModal }) => {
+  const onHoureClick = e => {
+    if (e.target.className === 'calendar__time-shot') {
+      handleChangeShowModal();
+    }
+  };
   return (
     <div className="calendar__week">
       {weekDates.map(dayStart => {

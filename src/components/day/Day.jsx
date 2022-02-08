@@ -3,7 +3,7 @@ import Hour from '../hour/Hour';
 
 import './day.scss';
 
-const Day = ({ dataDay, dayEvents }) => {
+const Day = ({ dataDay, dayEvents, onDeleteEvent, isCurrentDay }) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
@@ -14,7 +14,15 @@ const Day = ({ dataDay, dayEvents }) => {
         //getting all events from the day we will render
         const hourEvents = dayEvents.filter(event => event.dateFrom.getHours() === hour);
 
-        return <Hour key={dataDay + hour} dataHour={hour} hourEvents={hourEvents} />;
+        return (
+          <Hour
+            key={dataDay + hour}
+            dataHour={hour}
+            hourEvents={hourEvents}
+            onDeleteEvent={onDeleteEvent}
+            isCurrentDay={isCurrentDay}
+          />
+        );
       })}
     </div>
   );
