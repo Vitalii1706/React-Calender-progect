@@ -1,5 +1,5 @@
 import React from 'react';
-import { months, visibleMonth, visibleYear } from '../../utils/dateUtils.js';
+import { months, visibleMonth } from '../../utils/dateUtils.js';
 
 import './header.scss';
 
