@@ -8,7 +8,6 @@ import { fetchEventsList, createEvent, deleteEvent } from '../../gateway/gateWay
 
 const Calendar = ({ weekDates, handleChangeShowModal, isShownModal }) => {
   const [events, setEvents] = useState([]);
-  console.log(events);
   const fetchEvents = () => {
     fetchEventsList().then(evensList => {
       setEvents(evensList);
