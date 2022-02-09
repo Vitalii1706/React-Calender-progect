@@ -3,7 +3,7 @@ import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 import './hour.scss';
 
-const Hour = ({ dataHour, hourEvents, onDeleteEvent, isCurrentDay }) => {
+const Hour = ({ dataHour, hourEvents, onDeleteEvent, isCurrentDay, onCloseModal }) => {
   const [hour, setHour] = useState(new Date().getHours());
   const [minutes, setMinutes] = useState(new Date().getMinutes());
 
@@ -13,15 +13,27 @@ const Hour = ({ dataHour, hourEvents, onDeleteEvent, isCurrentDay }) => {
       setHour(hour + 1);
     }
 
-    const intervalId = setInterval(() => {}, 1000 * 60);
+    /*
+
+    const intervalId = setInterval(() => {
+      setMinutes(minutes + 1);
+    }, 1000 * 60);
 
     return () => {
       clearInterval(intervalId);
-    };
+    };*/
   });
 
   return (
-    <div className="calendar__time-slot" data-time={dataHour + 1}>
+    <div
+      className="calendar__time-slot"
+      data-time={dataHour + 1}
+      onClick={() => {
+        if (hourEvents.lenght === 0) {
+          onCloseModal();
+        }
+      }}
+    >
       {isCurrentDay && hour === dataHour && (
         <div className="redLine" style={{ top: minutes }}></div>
       )}
