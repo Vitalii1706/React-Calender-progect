@@ -3,7 +3,6 @@ import Day from '../day/Day';
 import './week.scss';
 
 const Week = ({ weekDates, events, onDeleteEvent, handleChangeShowModal }) => {
-  console.log(events);
   const onHoureClick = e => {
     if (e.target.className === 'calendar__time-shot') {
       handleChangeShowModal();
