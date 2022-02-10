@@ -1,4 +1,4 @@
-# **Layout calendar in React **
+# Layout calendar in React
 
 ---
 
