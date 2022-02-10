@@ -3,6 +3,7 @@ import { getDateTime } from '../../utils/dateUtils';
 import './modal.scss';
 import moment from 'moment';
 import { durationOfEvent, multiples } from '../../utils/validations';
+import PropTypes from 'prop-types';
 
 const Modal = ({ onCloseModal, addEvent }) => {
   const [modalState, setModalState] = useState({
@@ -99,6 +100,11 @@ const Modal = ({ onCloseModal, addEvent }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  onCloseModal: PropTypes.func.isRequired,
+  addEvent: PropTypes.func.isRequired,
 };
 
 export default Modal;

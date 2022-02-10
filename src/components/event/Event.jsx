@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { validationForDelete } from '../../utils/validations';
 import './event.scss';
+import PropTypes from 'prop-types';
 
 const Event = ({ height, marginTop, title, time, onDeleteEvent, id }) => {
   const [deleteEventButton, setDeleteEventButton] = useState(false);
@@ -33,6 +34,15 @@ const Event = ({ height, marginTop, title, time, onDeleteEvent, id }) => {
       )}
     </>
   );
+};
+
+Event.propTypes = {
+  height: PropTypes.number.isRequired,
+  marginTop: PropTypes.number.isRequired,
+  title: PropTypes.string,
+  time: PropTypes.string.isRequired,
+  onDeleteEvent: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Event;
