@@ -5,6 +5,7 @@ import Sidebar from '../sidebar/Sidebar';
 import Modal from '../modal/Modal.jsx';
 import './calendar.scss';
 import { fetchEventsList, createEvent, deleteEvent } from '../../gateway/gateWay';
+import PropTypes from 'prop-types';
 
 const Calendar = ({ weekDates, handleChangeShowModal, isShownModal }) => {
   const [events, setEvents] = useState([]);
@@ -45,6 +46,12 @@ const Calendar = ({ weekDates, handleChangeShowModal, isShownModal }) => {
       </section>
     </>
   );
+};
+
+Calendar.propTypes = {
+  weekDates: PropTypes.array.isRequired,
+  handleChangeShowModal: PropTypes.func.isRequired,
+  isShownModal: PropTypes.bool.isRequired,
 };
 
 export default Calendar;

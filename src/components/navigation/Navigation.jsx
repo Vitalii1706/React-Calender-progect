@@ -3,6 +3,7 @@ import './navigation.scss';
 import { days } from '../../utils/dateUtils.js';
 import moment from 'moment';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const Navigation = ({ weekDates }) => {
   return (
@@ -18,13 +19,17 @@ const Navigation = ({ weekDates }) => {
         });
         return (
           <div key={Math.random()} className="calendar__day-label day-label">
-            <span className={colorTodayDayClasses} >{days[dayDate.getDay()]}</span>
+            <span className={colorTodayDayClasses}>{days[dayDate.getDay()]}</span>
             <span className={colorTodayNumberClasses}>{dayDate.getDate()}</span>
           </div>
         );
       })}
     </header>
   );
+};
+
+Navigation.propTypes = {
+  weekDates: PropTypes.array.isRequired,
 };
 
 export default Navigation;

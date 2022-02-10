@@ -13,15 +13,13 @@ const Hour = ({ dataHour, hourEvents, onDeleteEvent, isCurrentDay, onCloseModal 
       setHour(hour + 1);
     }
 
-    /*
-
     const intervalId = setInterval(() => {
       setMinutes(minutes + 1);
     }, 1000 * 60);
 
     return () => {
       clearInterval(intervalId);
-    };*/
+    };
   });
 
   return (
