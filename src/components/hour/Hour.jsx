@@ -5,25 +5,29 @@ import './hour.scss';
 import PropTypes from 'prop-types';
 
 const Hour = ({ dataHour, hourEvents, onDeleteEvent, isCurrentDay }) => {
-  const [line, setLine] = useState({
-    marginTop: new Date().getMinutes() + new Date().getHours() * (60 - 1),
-  });
+  const [hour, setHour] = useState(new Date().getHours());
+  const [minutes, setMinutes] = useState(new Date().getMinutes());
 
   useEffect(() => {
-    const currentTimeout = setInterval(() => {
-      setLine({
-        marginTop: new Date().getMinutes() + new Date().getHours() * (60 - 1),
-      });
+    if (minutes === 60) {
+      setMinutes(0);
+      setHour(hour + 1);
+    }
+
+    const intervalId = setInterval(() => {
+      setMinutes(minutes + 1);
     }, 60000);
 
     return () => {
-      clearInterval(currentTimeout);
+      clearInterval(intervalId);
     };
-  }, []);
+  });
 
   return (
     <div className="calendar__time-slot" data-time={dataHour + 1}>
-      {isCurrentDay === dataHour && <div className="redLine" style={line}></div>}
+      {isCurrentDay && hour === dataHour && (
+        <div className="redLine" style={{ top: minutes }}></div>
+      )}
       {/* if no events in the current hour nothing will render here */}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
         const eventStart = `${dateFrom.getHours()}:${formatMins(dateFrom.getMinutes())}`;
