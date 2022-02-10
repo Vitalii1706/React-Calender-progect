@@ -1,4 +1,4 @@
-# **Layout with product prices**
+# **Layout calendar in React **
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-## _Author_
+### _Author_
 
 ## Vitalii Kitral
 
