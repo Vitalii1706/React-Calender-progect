@@ -17,11 +17,17 @@
 
   &:hover {
     font-weight: bold;
-    background-color: red;
+    background-color: rgb(209, 59, 255);
   }
 }
 
 .delete-event-btn {
   cursor: pointer;
   border: none;
+  position: relative;
+  bottom: 50px;
+  left: 100px;
+  border-radius: 5px;
+  background-color: red;
+  color: #fff;
 }

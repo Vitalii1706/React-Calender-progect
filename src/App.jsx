@@ -1,57 +1,71 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
-import {
-  getWeekStartDate,
-  generateWeekRange,
-  startWeek,
-  endWeek,
-  getMonthName,
-} from '../src/utils/dateUtils.js';
+import { getWeekStartDate, generateWeekRange, getMonthName } from '../src/utils/dateUtils.js';
 import './common.scss';
+import { fetchEventsList } from './gateway/events';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      weekStartDate: new Date(),
-    };
-  }
+const App = () => {
+  const [weekStartDate, setWeekStartDate] = useState(new Date());
+  const [showModal, setSwowNodal] = useState(false);
+  const [events, setEvens] = useState([]);
+  console.log(events);
 
-  goPrev = () => {
-    this.setState({
-      weekStartDate: new Date(this.state.weekStartDate.getTime() - 7 * 24 * 60 * 60 * 1000),
-    });
+  const goPrev = () => {
+    setWeekStartDate(new Date(weekStartDate.getTime() - 7 * 24 * 60 * 60 * 1000));
   };
 
-  goNext = () => {
-    this.setState({
-      weekStartDate: new Date(this.state.weekStartDate.getTime() + 7 * 24 * 60 * 60 * 1000),
-    });
-  };
-  today = () => {
-    this.setState({
-      weekStartDate: new Date(),
-    });
+  const goNext = () => {
+    setWeekStartDate(new Date(weekStartDate.getTime() + 7 * 24 * 60 * 60 * 1000));
   };
 
-  render() {
-    const { weekStartDate } = this.state;
-    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
-    const showMonth = getMonthName(weekStartDate);
+  const today = () => {
+    setWeekStartDate(new Date());
+  };
 
-    return (
-      <>
-        <Header
-          goPrev={this.goPrev}
-          goNext={this.goNext}
-          today={this.today}
-          showMonth={showMonth}
-        />
-        <Calendar weekDates={weekDates} />
-      </>
-    );
-  }
-}
+  const isShowModal = () => {
+    setSwowNodal(true);
+  };
+
+  const isCloseModal = () => {
+    setSwowNodal(false);
+  };
+
+  const onCreateEvent = modalEvent => {
+    // setEvens(events.concat(modalEvent));
+  };
+
+  const deleteEvent = id => {
+    const updatedEvents = setEvens(events.filter(event => event.id !== id));
+    useState(updatedEvents);
+  };
+
+  const fetchEvents = () => {
+    fetchEventsList().then(dataEvents => setEvens(dataEvents));
+  };
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+  const showMonth = getMonthName(weekStartDate);
+
+  return (
+    <>
+      <Header
+        goPrev={goPrev}
+        goNext={goNext}
+        today={today}
+        showMonth={showMonth}
+        isShowModal={isShowModal}
+        showModal={showModal}
+        isCloseModal={isCloseModal}
+        onCreateEvent={onCreateEvent}
+      />
+
+      <Calendar weekDates={weekDates} deleteEvent={deleteEvent} events={events} />
+    </>
+  );
+};
 
 export default App;
