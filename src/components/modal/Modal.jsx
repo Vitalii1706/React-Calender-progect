@@ -1,25 +1,40 @@
 import React, { useState } from 'react';
-import events from '../../gateway/events';
+import { getDateTime } from '../../utils/dateUtils';
 import './modal.scss';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 const Modal = ({ isCloseModal, onCreateEvent }) => {
   const [modalEvent, setModalEvent] = useState({
-    id: new Date().getTime(),
     title: '',
     date: moment(new Date()).format('YYYY-MM-DD'),
-    startTime: moment(new Date()).format('HH:mm'),
-    endTime: moment(new Date()).format('HH:mm'),
+    dateFrom: moment(new Date()).format('HH:mm'),
+    dateTo: moment(new Date()).format('HH:mm'),
     description: '',
   });
+
+  const { title, date, dateFrom, dateTo, description } = modalEvent;
 
   const handleChange = e => {
     setModalEvent({
       ...modalEvent,
       [e.target.name]: e.target.value,
     });
-    console.log(modalEvent);
-    onCreateEvent(modalEvent);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const updatedEvent = {
+      title,
+      description,
+      dateFrom: getDateTime(date, dateFrom),
+      dateTo: getDateTime(date, dateTo),
+    };
+    if (dateFrom > dateTo) {
+      alert('You should to done it in one day');
+    } else {
+      onCreateEvent(updatedEvent);
+      isCloseModal();
+    }
   };
 
   return (
@@ -29,13 +44,13 @@ const Modal = ({ isCloseModal, onCreateEvent }) => {
           <button className="create-event__close-btn" onClick={isCloseModal}>
             +
           </button>
-          <form className="event-form" >
+          <form className="event-form" onSubmit={handleSubmit}>
             <input
               type="text"
               name="title"
               placeholder="Title"
               className="event-form__field"
-              value={modalEvent.title}
+              value={title}
               onChange={handleChange}
             />
             <div className="event-form__time">
@@ -43,22 +58,22 @@ const Modal = ({ isCloseModal, onCreateEvent }) => {
                 type="date"
                 name="date"
                 className="event-form__field"
-                value={modalEvent.date}
+                value={date}
                 onChange={handleChange}
               />
               <input
                 type="time"
-                name="startTime"
+                name="dateFrom"
                 className="event-form__field"
-                value={modalEvent.startTime}
+                value={dateFrom}
                 onChange={handleChange}
               />
               <span>-</span>
               <input
                 type="time"
-                name="endTime"
+                name="dateTo"
                 className="event-form__field"
-                value={modalEvent.endTime}
+                value={dateTo}
                 onChange={handleChange}
               />
             </div>
@@ -66,10 +81,10 @@ const Modal = ({ isCloseModal, onCreateEvent }) => {
               name="description"
               placeholder="Description"
               className="event-form__field"
-              value={modalEvent.description}
+              value={description}
               onChange={handleChange}
             ></textarea>
-            <button type="submit" className="event-form__submit-btn" onClick={onCreateEvent}>
+            <button type="submit" className="event-form__submit-btn">
               Create
             </button>
           </form>
@@ -77,6 +92,11 @@ const Modal = ({ isCloseModal, onCreateEvent }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  onCloseModal: PropTypes.func.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
 };
 
 export default Modal;

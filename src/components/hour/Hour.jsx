@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 
-const Hour = ({ dataHour, hourEvents }) => {
+const Hour = ({ dataHour, hourEvents, onDeleteEvent }) => {
   return (
     <div className="calendar__time-slot" data-time={dataHour + 1}>
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
@@ -18,11 +18,19 @@ const Hour = ({ dataHour, hourEvents }) => {
             marginTop={dateFrom.getMinutes()}
             time={`${eventStart} - ${eventEnd}`}
             title={title}
+            onDeleteEvent={onDeleteEvent}
+            id={id}
           />
         );
       })}
     </div>
   );
+};
+
+Hour.propTypes = {
+  dataHour: PropTypes.number.isRequired,
+  hourEvents: PropTypes.array.isRequired,
+  onDeleteEvent: PropTypes.func.isRequired,
 };
 
 export default Hour;

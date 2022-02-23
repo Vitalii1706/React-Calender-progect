@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../modal/Modal';
 import './header.scss';
+import PropTypes from 'prop-types';
 
 const Header = ({
   goPrev,
@@ -34,6 +35,17 @@ const Header = ({
       </header>
     </>
   );
+};
+
+Header.propTypes = {
+  goPrev: PropTypes.func.isRequired,
+  goNext: PropTypes.func.isRequired,
+  today: PropTypes.func.isRequired,
+  showMonth: PropTypes.string.isRequired,
+  isShowModal: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  isCloseModal: PropTypes.func.isRequired,
+  onCreateEvent: PropTypes.func.isRequired,
 };
 
 export default Header;

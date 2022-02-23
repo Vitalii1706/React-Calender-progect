@@ -27,40 +27,46 @@
     dateFrom: new Date(2022, 1, 25, 4, 30),
     dateTo: new Date(2022, 1, 25, 11, 0),
   },
-]; 
-
-export default events;*/
+];*/
 
 const baseUrl = 'https://61f5229a62f1e300173c400c.mockapi.io/api/v1/events';
 
-export const fetchEventsList = () => {
-  return fetch(baseUrl).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-  });
+export const fetchEventsList = async () => {
+  return fetch(baseUrl)
+    .then(result => {
+      if (result.ok) {
+        return result.json();
+      } else {
+        throw new Error(alert(" Internal Server Error. Can't display events "));
+      }
+    })
+    .then(eventsList =>
+      eventsList.map(({ dateFrom, dateTo, ...eventsList }) => ({
+        ...eventsList,
+        dateFrom: new Date(dateFrom),
+        dateTo: new Date(dateTo),
+      })),
+    );
 };
-
-/*
-export const createTask = taskData =>
-  fetch(baseUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;utc-8',
-    },
-    body: JSON.stringify(taskData),
-  }).then(response => {
-    if (!response.ok) {
-      throw new Error('Faild to ceate task');
-    }
-  });
-
-export const deleteTask = taskId =>
-  fetch(`${baseUrl}/${taskId}`, {
+export const deleteEvent = async id => {
+  return fetch(`${baseUrl}/${id}`, {
     method: 'DELETE',
   }).then(response => {
     if (!response.ok) {
-      throw new Error('Faild to ceate task');
+      throw new Error(alert(" Internal Server Error. Can't display events "));
     }
   });
-*/
+};
+export const createEvent = async eventData => {
+  return fetch(baseUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(eventData),
+  }).then(res => {
+    if (!res.ok) {
+      throw new Error(alert(" Internal Server Error. Can't display events "));
+    }
+  });
+};
